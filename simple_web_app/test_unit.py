@@ -6,6 +6,7 @@ from .exceptions import (
     NoLowerCaseException,
     EspecialCharacterException,
     NoUpperCaseException,
+    InvalidEspecialCharacterException,
 )
 from .models import PasswordValidator, ValidationResponse
 
@@ -72,5 +73,13 @@ def test_8_chars_with_no_upper_case_password_should_raise_exception():
     # given
     validator = PasswordValidator(content="c@abc@a1")
     with pytest.raises(NoUpperCaseException):  # then
+        # when
+        validator.password_validate()
+
+
+def test_8_char_with_invalid_especial_character_should_raise_exception():
+    # given
+    validator = PasswordValidator(content="@A1@a/^~")
+    with pytest.raises(InvalidEspecialCharacterException):  # then
         # when
         validator.password_validate()
